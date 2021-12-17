@@ -6,14 +6,15 @@ public class GameSystemManager : MonoBehaviour
 {
     public TMP_Text TimeText;
     public TMP_Text CalendarText;
+    public CalendarManager calendarManager;
 
     //Date
-    private int currentDay;
-    private int maxMonthDay;
-    private int currentMonth;
-    private string MonthName;
-    private int currentYear;
-    private bool isLeapYear;
+    public int currentDay;
+    public int maxMonthDay;
+    public int currentMonth;
+    public string MonthName;
+    public int currentYear;
+    public bool isLeapYear;
     //Time
     private int currentTime_Hour;
     private int currentTime_Minute;
@@ -32,6 +33,8 @@ public class GameSystemManager : MonoBehaviour
         MonthName = "January";
         currentYear = 2021;
         isLeapYear = false;
+
+        InitialDayPopulation();
     }
 
     // Update is called once per frame
@@ -58,6 +61,20 @@ public class GameSystemManager : MonoBehaviour
         }
     }
 
+    void InitialDayPopulation()
+    {
+        List<DayScript> InitialDays = CalendarContentSavingScript.Instance().LoadContentsByMonthAndYear(currentYear, currentMonth);
+
+        if (InitialDays != null)
+        {
+            calendarManager.setDaysAndContents(InitialDays);
+        }
+        else
+        {
+            calendarManager.populateFirstMonth();
+        }
+    }
+
     void updateTimeValue()
     {
         currentTime_Seconds += Time.deltaTime;
@@ -78,6 +95,7 @@ public class GameSystemManager : MonoBehaviour
         {
             currentDay++;
             currentTime_Hour -= 24;
+            calendarManager.ShowCurrentDayHighlighted(currentDay);
         }
     }
 

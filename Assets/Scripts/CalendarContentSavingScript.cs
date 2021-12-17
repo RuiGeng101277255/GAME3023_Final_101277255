@@ -24,7 +24,7 @@ public class CalendarContentSavingScript : MonoBehaviour
 
     }
 
-    public void SaveContents(int year, int month, DayScript[] days)
+    public void SaveContents(int year, int month, List<DayScript> days)
     {
         StreamWriter writer = new StreamWriter(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt");
         string AllDetailsFromMonth = "";
@@ -43,17 +43,15 @@ public class CalendarContentSavingScript : MonoBehaviour
         writer.Close();
     }
 
-    public DayScript[] LoadContentsByMonthAndYear(int year, int month, DayScript[] days)
+    public List<DayScript> LoadContentsByMonthAndYear(int year, int month)
     {
-        DayScript[] loadedDays = null;
+        List<DayScript> loadedDays = null;
 
         if (File.Exists(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt"))
         {
             StreamReader reader = new StreamReader(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt");
             string line = reader.ReadLine();
             string[] dayNdetails = line.Split(DaySeparator);
-
-            loadedDays = new DayScript[dayNdetails.Length];
 
             for (int i = 0; i < dayNdetails.Length; i++)
             {
