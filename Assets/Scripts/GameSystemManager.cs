@@ -51,6 +51,11 @@ public class GameSystemManager : MonoBehaviour
         {
             setDate(2000, 2, 28);
         }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            CalendarContentSavingScript.Instance().SaveContents(2001, 11, null);
+        }
     }
 
     void updateTimeValue()

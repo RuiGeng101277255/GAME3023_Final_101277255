@@ -7,12 +7,12 @@ public class CalendarManager : MonoBehaviour
     public GameObject DayPrefab;
     public DayDetailScript DayDetailDisplay;
 
-    public List<DayScript> DayList;
+    public List<DayScript> currentMonthDayList;
 
     // Start is called before the first frame update
     void Start()
     {
-        DayList[0].setCalendarManager(this);
+        currentMonthDayList[0].setCalendarManager(this);
     }
 
     // Update is called once per frame

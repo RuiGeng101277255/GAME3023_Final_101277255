@@ -19602,7 +19602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DayPrefab: {fileID: 0}
   DayDetailDisplay: {fileID: 485829126}
-  DayList:
+  currentMonthDayList:
   - {fileID: 115628688}
 --- !u!1 &1841768089
 GameObject:
