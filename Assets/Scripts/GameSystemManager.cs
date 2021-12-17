@@ -34,7 +34,7 @@ public class GameSystemManager : MonoBehaviour
         currentYear = 2021;
         isLeapYear = false;
 
-        InitialDayPopulation();
+        MonthPopulation();
     }
 
     // Update is called once per frame
@@ -61,7 +61,7 @@ public class GameSystemManager : MonoBehaviour
         }
     }
 
-    void InitialDayPopulation()
+    void MonthPopulation()
     {
         List<DayScript> InitialDays = CalendarContentSavingScript.Instance().LoadContentsByMonthAndYear(currentYear, currentMonth);
 
@@ -71,7 +71,7 @@ public class GameSystemManager : MonoBehaviour
         }
         else
         {
-            calendarManager.populateFirstMonth();
+            calendarManager.populateEmptyMonth();
         }
     }
 
@@ -191,6 +191,8 @@ public class GameSystemManager : MonoBehaviour
                 currentMonth = 1;
             }
             currentDay = 1;
+            updateMonthValue();
+            MonthPopulation();
         }
     }
 

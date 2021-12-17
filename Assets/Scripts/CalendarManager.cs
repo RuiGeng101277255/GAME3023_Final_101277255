@@ -25,6 +25,14 @@ public class CalendarManager : MonoBehaviour
 
     void populateCurrentMonth()
     {
+        if (transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
+
         if (currentMonthDayList.Count != 0)
         {
             foreach (DayScript d in currentMonthDayList)
@@ -63,7 +71,7 @@ public class CalendarManager : MonoBehaviour
         populateCurrentMonth();
     }
 
-    public void populateFirstMonth()
+    public void populateEmptyMonth()
     {
         currentMonthDayList.Clear();
 
