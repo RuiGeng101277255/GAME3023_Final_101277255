@@ -6,7 +6,7 @@ using TMPro;
 
 public class GameSystemManager : MonoBehaviour
 {
-    public TMP_Text TimeText;
+    public TMP_Text CurrentTimeText;
     public TMP_Text CalendarText;
     public CalendarManager calendarManager;
 
@@ -40,7 +40,7 @@ public class GameSystemManager : MonoBehaviour
         currentYear = 2021;
         isLeapYear = false;
 
-        MonthPopulation();
+        MonthPopulation(currentYear, currentMonth);
         initialDayLightIntensity = GlobalDayLight.intensity;
     }
 
@@ -54,19 +54,19 @@ public class GameSystemManager : MonoBehaviour
         updateDayLightColor();
     }
 
-    void MonthPopulation()
+    void MonthPopulation(int year, int month)
     {
-        string targetDaysString = CalendarContentSavingScript.Instance().LoadStringContentsByMonthAndYear(currentYear, currentMonth);
+        string targetDaysString = CalendarContentSavingScript.Instance().LoadStringContentsByMonthAndYear(year, month);
         if (targetDaysString != "")
         {
-            calendarManager.setDaysAndContentsUsingString(targetDaysString);
+            calendarManager.setDaysAndContentsUsingString(year, month, targetDaysString);
         }
         else
         {
-            calendarManager.populateEmptyMonth();
+            calendarManager.populateEmptyMonth(year, month);
         }
 
-        calendarManager.ShowCurrentDayHighlighted(currentDay);
+        calendarManager.ShowCurrentDayHighlighted();
     }
 
     void updateTimeValue()
@@ -89,13 +89,17 @@ public class GameSystemManager : MonoBehaviour
         {
             currentDay++;
             currentTime_Hour -= 24;
-            calendarManager.ShowCurrentDayHighlighted(currentDay);
+            calendarManager.ShowCurrentDayHighlighted();
         }
     }
 
     void updateTimeText()
     {
-        TimeText.text = currentTime_Hour.ToString("00") + " Hr " + currentTime_Minute.ToString("00") + " Min " + ((int)currentTime_Seconds).ToString("00") + " Sec ";
+        CurrentTimeText.text = MonthName + " " 
+            + currentDay + MonthStructureScript.Instance().getDayPostFix(currentDay) + "," 
+            + currentYear + " " + currentTime_Hour.ToString("00") + ": " 
+            + currentTime_Minute.ToString("00") + ": " 
+            + ((int)currentTime_Seconds).ToString("00");
     }
 
     void updateDayLightColor()
@@ -125,9 +129,8 @@ public class GameSystemManager : MonoBehaviour
 
     void updateMonthValue()
     {
-        MonthStructure MonthInQuestion = new MonthStructure();
-        MonthName = MonthInQuestion.getMonthStructure(currentMonth, isLeapYear).MonthName;
-        maxMonthDay = MonthInQuestion.getMonthStructure(currentMonth, isLeapYear).MonthMaxDay;
+        MonthName = MonthStructureScript.Instance().getTargetMonthName(currentMonth);
+        maxMonthDay = MonthStructureScript.Instance().getTargetMonthMaxDayNumber(currentYear, currentMonth);
     }
 
     void updateDayValue()
@@ -145,40 +148,13 @@ public class GameSystemManager : MonoBehaviour
             }
             currentDay = 1;
             updateMonthValue();
-            MonthPopulation();
+            MonthPopulation(currentYear, currentMonth);
         }
     }
 
     void updateCalendarText()
     {
-        string dayPostfix = "";
-        int lastDayDigit = currentDay % 10;
-        int secondDayDigit = (int)(currentDay / 10);
-
-        if (secondDayDigit != 1)
-        {
-            switch (lastDayDigit)
-            {
-                case 1:
-                    dayPostfix = "st";
-                    break;
-                case 2:
-                    dayPostfix = "nd";
-                    break;
-                case 3:
-                    dayPostfix = "rd";
-                    break;
-                default:
-                    dayPostfix = "th";
-                    break;
-            }
-        }
-        else
-        {
-            dayPostfix = "th";
-        }
-
-        CalendarText.text = MonthName + " " + currentDay + dayPostfix + "," + currentYear;
+        CalendarText.text = MonthStructureScript.Instance().getTargetMonthName(calendarManager.CalendarDisplayMonth) + " of " + calendarManager.CalendarDisplayYear;
     }
 
     public void setTime(int hour, int minute, int seconds)
@@ -198,97 +174,32 @@ public class GameSystemManager : MonoBehaviour
     public void monthChangePressed(bool isNext)
     {
         calendarManager.saveCurrentMonth();
+
+        int targetMonth = calendarManager.CalendarDisplayMonth;
+        int targetYear = calendarManager.CalendarDisplayYear;
+
         if (isNext)
         {
-            currentMonth++;
+            targetMonth++;
         }
         else
         {
-            currentMonth--;
+            targetMonth--;
         }
 
-        if (currentMonth > 12)
+        if (targetMonth > 12)
         {
-            currentMonth = 1;
-            currentYear++;
+            targetMonth = 1;
+            targetYear++;
         }
-        else if (currentMonth < 1)
+        else if (targetMonth < 1)
         {
-            currentMonth = 12;
-            currentYear--;
+            targetMonth = 12;
+            targetYear--;
         }
 
-        updateMonthValue();
-        currentTime_Hour = 0;
-        currentTime_Minute = 0;
-        currentTime_Seconds = 0.0f;
-        currentDay = 1;
+        //updateMonthValue();
 
-        MonthPopulation();
-    }
-}
-
-public class MonthStructure
-{
-    public string MonthName;
-    public int MonthMaxDay;
-
-    public MonthStructure getMonthStructure(int monthNumber, bool isLeap)
-    {
-        MonthStructure targetMonth = new MonthStructure();
-
-        switch (monthNumber)
-        {
-            case 1:
-                targetMonth.MonthName = "January";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 2:
-                targetMonth.MonthName = "February";
-                targetMonth.MonthMaxDay = (isLeap) ? 29 : 28;
-                break;
-            case 3:
-                targetMonth.MonthName = "March";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 4:
-                targetMonth.MonthName = "April";
-                targetMonth.MonthMaxDay = 30;
-                break;
-            case 5:
-                targetMonth.MonthName = "May";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 6:
-                targetMonth.MonthName = "June";
-                targetMonth.MonthMaxDay = 30;
-                break;
-            case 7:
-                targetMonth.MonthName = "July";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 8:
-                targetMonth.MonthName = "August";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 9:
-                targetMonth.MonthName = "September";
-                targetMonth.MonthMaxDay = 30;
-                break;
-            case 10:
-                targetMonth.MonthName = "October";
-                targetMonth.MonthMaxDay = 31;
-                break;
-            case 11:
-                targetMonth.MonthName = "November";
-                targetMonth.MonthMaxDay = 30;
-                break;
-            case 12:
-                targetMonth.MonthName = "December";
-                targetMonth.MonthMaxDay = 31;
-                break;
-        }
-
-        return targetMonth;
+        MonthPopulation(targetYear, targetMonth);
     }
 }

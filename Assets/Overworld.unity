@@ -2679,7 +2679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8b1e42bdc74a64f8d6a9d0bd80086e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeText: {fileID: 299789803}
+  CurrentTimeText: {fileID: 299789803}
   CalendarText: {fileID: 640735104}
   calendarManager: {fileID: 1832979177}
   TimeSpeedFactorBySeconds: 7200
@@ -18999,6 +18999,8 @@ MonoBehaviour:
   gameManager: {fileID: 885618743}
   dayPrefab: {fileID: 279451440584927481, guid: 4cb58253555a43446872a937c6b4f465, type: 3}
   currentMonthDayList: []
+  CalendarDisplayMonth: 0
+  CalendarDisplayYear: 0
 --- !u!1 &1836872892
 GameObject:
   m_ObjectHideFlags: 0
@@ -19168,7 +19170,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 100}
+  m_SizeDelta: {x: 550, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1841768091
 MonoBehaviour:

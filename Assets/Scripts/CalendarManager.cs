@@ -11,6 +11,9 @@ public class CalendarManager : MonoBehaviour
 
     public List<DayScript> currentMonthDayList;
 
+    public int CalendarDisplayMonth;
+    public int CalendarDisplayYear;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +50,9 @@ public class CalendarManager : MonoBehaviour
     {
         if (currentMonthDayList.Count != 0)
         {
-            CalendarContentSavingScript.Instance().SaveContents(gameManager.currentYear, gameManager.currentMonth, currentMonthDayList);
+            int targetYear = currentMonthDayList[0].dayYear;
+            int targetMonth = currentMonthDayList[0].dayMonth;
+            CalendarContentSavingScript.Instance().SaveContents(targetYear, targetMonth, currentMonthDayList);
         }
     }
 
@@ -57,7 +62,7 @@ public class CalendarManager : MonoBehaviour
         DayDetailDisplay.gameObject.SetActive(true);
     }
 
-    public void setDaysAndContentsUsingString(string s)
+    public void setDaysAndContentsUsingString(int year, int month, string s)
     {
         List<DayScript> LoadedDays = new List<DayScript>();
         string[] dayNdetails = s.Split(SaveLoadSignifiers.DaySeparator.ToCharArray()[0]);
@@ -70,7 +75,7 @@ public class CalendarManager : MonoBehaviour
 
                 GameObject newDayObj = Instantiate(dayPrefab);
                 DayScript newDay = newDayObj.GetComponent<DayScript>();
-                newDay.setDay(i, gameManager.currentMonth, gameManager.currentYear);
+                newDay.setDay(i, month, year);
 
                 for (int d = 1; d < details.Length; d++)
                 {
@@ -81,11 +86,14 @@ public class CalendarManager : MonoBehaviour
             }
         }
 
-        setDaysAndContents(LoadedDays);
+        setDaysAndContents(year, month, LoadedDays);
     }
 
-    public void setDaysAndContents(List<DayScript> days)
+    public void setDaysAndContents(int year, int month, List<DayScript> days)
     {
+        CalendarDisplayYear = year;
+        CalendarDisplayMonth = month;
+
         currentMonthDayList.Clear();
 
         foreach (DayScript d in days)
@@ -96,30 +104,52 @@ public class CalendarManager : MonoBehaviour
         populateCurrentMonth();
     }
 
-    public void populateEmptyMonth()
+    public void populateEmptyMonth(int year, int month)
     {
+        int maxTargetMonthDays = MonthStructureScript.Instance().getTargetMonthMaxDayNumber(year, month);
+
         List<DayScript> emptyDays = new List<DayScript>();
 
-        for (int i = 1; i <= gameManager.maxMonthDay; i++)
+        for (int i = 1; i <= maxTargetMonthDays; i++)
         {
             GameObject newDayObj = Instantiate(dayPrefab);
             DayScript newDay = newDayObj.GetComponent<DayScript>();
-            newDay.setDay(i, gameManager.currentMonth, gameManager.currentYear);
+            newDay.setDay(i, month, year);
             emptyDays.Add(newDay);
         }
-        setDaysAndContents(emptyDays);
+        setDaysAndContents(year, month, emptyDays);
     }
 
-    public void ShowCurrentDayHighlighted(int dayNum)
+    public void ShowCurrentDayHighlighted()
     {
-        if (dayNum > 1)
+        foreach (DayScript day in currentMonthDayList)
         {
-            currentMonthDayList[dayNum - 2].setDayCurrentDisplay(false);
+            if (((day.dayNumber == gameManager.currentDay) && (day.dayMonth == gameManager.currentMonth)) && (day.dayYear == gameManager.currentYear))
+            {
+                day.setDayCurrentDisplay(true);
+            }
+            else
+            {
+                day.setDayCurrentDisplay(false);
+            }
         }
 
-        if (dayNum <= gameManager.maxMonthDay)
-        {
-            currentMonthDayList[dayNum - 1].setDayCurrentDisplay(true);
-        }
+
+        //if ((monthNum == gameManager.currentMonth) && (yearNum == gameManager.currentYear))
+        //{
+        //    foreach (DayScript day in currentMonthDayList)
+        //    {
+        //
+        //    }
+        //    if (dayNum > 1)
+        //    {
+        //        currentMonthDayList[dayNum - 2].setDayCurrentDisplay(false);
+        //    }
+        //
+        //    if (dayNum <= gameManager.maxMonthDay)
+        //    {
+        //        currentMonthDayList[dayNum - 1].setDayCurrentDisplay(true);
+        //    }
+        //}
     }
 }
