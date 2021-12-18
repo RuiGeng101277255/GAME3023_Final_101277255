@@ -17,7 +17,7 @@ public class CalendarManager : MonoBehaviour
     public int CalendarDisplayMonth;
     public int CalendarDisplayYear;
 
-
+    public PlayerBehaviour player;
     void populateCurrentMonth()
     {
         //Cleans the days in the month if it has any, so that the new month's objects can be added
@@ -68,6 +68,9 @@ public class CalendarManager : MonoBehaviour
         DayDetailDisplay.setTargetDateDetail(day);
         DayDetailDisplay.gameObject.SetActive(true);
         setButtonInteraction(false);
+
+        //Disables the player movement if the day is clicked
+        player.isCalendarInDetails = true;
     }
 
     public void setDaysAndContentsUsingString(int year, int month, string s)

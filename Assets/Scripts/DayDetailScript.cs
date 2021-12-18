@@ -12,6 +12,8 @@ public class DayDetailScript : MonoBehaviour
     public GameObject TextPrefab; //Prefab of the detail texts
     public DayScript targetDay; //The day in question
 
+    public PlayerBehaviour player;
+
     void ClearDisplayContents()
     {
         //Clears every detail text within the panel
@@ -36,5 +38,11 @@ public class DayDetailScript : MonoBehaviour
             tempDetail.transform.SetParent(DetailListPanel.transform);
             tempDetail.GetComponent<Text>().text = s;
         }
+    }
+
+    public void closeDetailPanel()
+    {
+        gameObject.SetActive(false);
+        player.isCalendarInDetails = false;
     }
 }
