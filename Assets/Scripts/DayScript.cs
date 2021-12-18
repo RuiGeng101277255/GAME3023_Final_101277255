@@ -8,6 +8,7 @@ public class DayScript : MonoBehaviour
     public TMP_Text DayText;
     public List<string> DayDetails;
     public GameObject selectionImage;
+    public GameObject DayHasDetailImage;
 
     private CalendarManager Calendar;
     public int dayNumber;
@@ -23,7 +24,7 @@ public class DayScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        DayHasDetailImage.SetActive(((DayDetails.Count != 0) ? true : false));
     }
 
     public void setCalendarManager(CalendarManager cM)
