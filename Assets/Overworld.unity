@@ -2682,6 +2682,8 @@ MonoBehaviour:
   TimeText: {fileID: 299789803}
   CalendarText: {fileID: 640735104}
   calendarManager: {fileID: 1832979177}
+  TimeSpeedFactorBySeconds: 7200
+  GlobalDayLight: {fileID: 2036757915}
   currentDay: 0
   maxMonthDay: 0
   currentMonth: 0

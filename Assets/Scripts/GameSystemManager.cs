@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using TMPro;
+
 public class GameSystemManager : MonoBehaviour
 {
     public TMP_Text TimeText;
     public TMP_Text CalendarText;
     public CalendarManager calendarManager;
+
+    public float TimeSpeedFactorBySeconds;
+    public Light2D GlobalDayLight;
+    private float initialDayLightIntensity;
 
     //Date
     public int currentDay;
@@ -35,6 +41,7 @@ public class GameSystemManager : MonoBehaviour
         isLeapYear = false;
 
         MonthPopulation();
+        initialDayLightIntensity = GlobalDayLight.intensity;
     }
 
     // Update is called once per frame
@@ -44,6 +51,7 @@ public class GameSystemManager : MonoBehaviour
         updateTimeText();
         updateCalendarValue();
         updateCalendarText();
+        updateDayLightColor();
     }
 
     void MonthPopulation()
@@ -63,7 +71,7 @@ public class GameSystemManager : MonoBehaviour
 
     void updateTimeValue()
     {
-        currentTime_Seconds += Time.deltaTime;
+        currentTime_Seconds += Time.deltaTime * TimeSpeedFactorBySeconds;
 
         if (currentTime_Seconds >= 60.0f)
         {
@@ -88,6 +96,12 @@ public class GameSystemManager : MonoBehaviour
     void updateTimeText()
     {
         TimeText.text = currentTime_Hour.ToString("00") + " Hr " + currentTime_Minute.ToString("00") + " Min " + ((int)currentTime_Seconds).ToString("00") + " Sec ";
+    }
+
+    void updateDayLightColor()
+    {
+        float runtimeDaySpeedInSeconds = TimeSpeedFactorBySeconds / 43200.0f;
+        GlobalDayLight.intensity = Mathf.Lerp(0.0f, initialDayLightIntensity, Mathf.PingPong(Time.time * runtimeDaySpeedInSeconds, 1.0f)); ;
     }
 
     void updateCalendarValue()
