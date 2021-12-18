@@ -10,7 +10,13 @@ public class GameSystemManager : MonoBehaviour
     public TMP_Text CalendarText;
     public CalendarManager calendarManager;
 
-    public float TimeSpeedFactorBySeconds;
+    public TMP_Text TimeScaleText;
+    private float secPerSec = 1.0f;
+    private float minPerSec = 60.0f;
+    private float hrPerSec = 3600.0f;
+    private float dayPerSec = 86400.0f;
+    private float CurrentTimeSpeedFactorBySeconds;
+    private float totalRunTime = 0.0f;
     public Light2D GlobalDayLight;
     private float initialDayLightIntensity;
 
@@ -40,6 +46,8 @@ public class GameSystemManager : MonoBehaviour
         currentYear = 2021;
         isLeapYear = false;
 
+        CurrentTimeSpeedFactorBySeconds = 1.0f;
+
         MonthPopulation(currentYear, currentMonth);
         initialDayLightIntensity = GlobalDayLight.intensity;
     }
@@ -49,9 +57,9 @@ public class GameSystemManager : MonoBehaviour
     {
         updateTimeValue();
         updateTimeText();
+        updateDayLightColor();
         updateCalendarValue();
         updateCalendarText();
-        updateDayLightColor();
     }
 
     void MonthPopulation(int year, int month)
@@ -71,25 +79,34 @@ public class GameSystemManager : MonoBehaviour
 
     void updateTimeValue()
     {
-        currentTime_Seconds += Time.deltaTime * TimeSpeedFactorBySeconds;
+        currentTime_Seconds += Time.deltaTime * CurrentTimeSpeedFactorBySeconds;
 
         if (currentTime_Seconds >= 60.0f)
         {
-            currentTime_Minute++;
-            currentTime_Seconds -= 60.0f;
+            while (currentTime_Seconds >= 60.0f)
+            {
+                currentTime_Minute++;
+                currentTime_Seconds -= 60.0f;
+            }
         }
 
         if (currentTime_Minute >= 60)
         {
-            currentTime_Hour++;
-            currentTime_Minute -= 60;
+            while (currentTime_Minute >= 60)
+            {
+                currentTime_Hour++;
+                currentTime_Minute -= 60;
+            }
         }
 
         if (currentTime_Hour >= 24)
         {
-            currentDay++;
-            currentTime_Hour -= 24;
-            calendarManager.ShowCurrentDayHighlighted();
+            while (currentTime_Hour >= 24)
+            {
+                currentDay++;
+                currentTime_Hour -= 24;
+                calendarManager.ShowCurrentDayHighlighted();
+            }
         }
     }
 
@@ -104,8 +121,9 @@ public class GameSystemManager : MonoBehaviour
 
     void updateDayLightColor()
     {
-        float runtimeDaySpeedInSeconds = TimeSpeedFactorBySeconds / 43200.0f;
-        GlobalDayLight.intensity = Mathf.Lerp(0.0f, initialDayLightIntensity, Mathf.PingPong(Time.time * runtimeDaySpeedInSeconds, 1.0f)); ;
+        float runtimeDaySpeedInSeconds = CurrentTimeSpeedFactorBySeconds / 43200.0f; //half a day
+        totalRunTime += Time.deltaTime * runtimeDaySpeedInSeconds;
+        GlobalDayLight.intensity = Mathf.Lerp(0.0f, initialDayLightIntensity, Mathf.PingPong(totalRunTime, 1.0f)); ;
     }
 
     void updateCalendarValue()
@@ -201,5 +219,29 @@ public class GameSystemManager : MonoBehaviour
         //updateMonthValue();
 
         MonthPopulation(targetYear, targetMonth);
+    }
+
+    public void TimeScalePressed()
+    {
+        if (CurrentTimeSpeedFactorBySeconds == secPerSec)
+        {
+            CurrentTimeSpeedFactorBySeconds = minPerSec;
+            TimeScaleText.text = "1 min/s";
+        }
+        else if (CurrentTimeSpeedFactorBySeconds == minPerSec)
+        {
+            CurrentTimeSpeedFactorBySeconds = hrPerSec;
+            TimeScaleText.text = "1 hr/s";
+        }
+        else if (CurrentTimeSpeedFactorBySeconds == hrPerSec)
+        {
+            CurrentTimeSpeedFactorBySeconds = dayPerSec;
+            TimeScaleText.text = "1 day/s";
+        }
+        else if (CurrentTimeSpeedFactorBySeconds == dayPerSec)
+        {
+            CurrentTimeSpeedFactorBySeconds = secPerSec;
+            TimeScaleText.text = "1 sec/s";
+        }
     }
 }
