@@ -44,30 +44,14 @@ public class GameSystemManager : MonoBehaviour
         updateTimeText();
         updateCalendarValue();
         updateCalendarText();
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            setTime(23, 59, 59);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            setDate(2000, 2, 28);
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            CalendarContentSavingScript.Instance().SaveContents(2001, 11, null);
-        }
     }
 
     void MonthPopulation()
     {
-        List<DayScript> InitialDays = CalendarContentSavingScript.Instance().LoadContentsByMonthAndYear(currentYear, currentMonth);
-
-        if (InitialDays != null)
+        string targetDaysString = CalendarContentSavingScript.Instance().LoadStringContentsByMonthAndYear(currentYear, currentMonth);
+        if (targetDaysString != "")
         {
-            calendarManager.setDaysAndContents(InitialDays);
+            calendarManager.setDaysAndContentsUsingString(targetDaysString);
         }
         else
         {
@@ -143,6 +127,7 @@ public class GameSystemManager : MonoBehaviour
             else
             {
                 currentMonth = 1;
+                currentYear++;
             }
             currentDay = 1;
             updateMonthValue();
@@ -194,6 +179,38 @@ public class GameSystemManager : MonoBehaviour
         currentYear = year;
         currentMonth = month;
         currentDay = day;
+    }
+
+    public void monthChangePressed(bool isNext)
+    {
+        calendarManager.saveCurrentMonth();
+        if (isNext)
+        {
+            currentMonth++;
+        }
+        else
+        {
+            currentMonth--;
+        }
+
+        if (currentMonth > 12)
+        {
+            currentMonth = 1;
+            currentYear++;
+        }
+        else if (currentMonth < 1)
+        {
+            currentMonth = 12;
+            currentYear--;
+        }
+
+        updateMonthValue();
+        currentTime_Hour = 0;
+        currentTime_Minute = 0;
+        currentTime_Seconds = 0.0f;
+        currentDay = 1;
+
+        MonthPopulation();
     }
 }
 

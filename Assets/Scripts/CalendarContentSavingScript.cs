@@ -6,8 +6,8 @@ using System.IO;
 public class CalendarContentSavingScript : MonoBehaviour
 {
     private static CalendarContentSavingScript _Instance;
-    private static char DaySeparator = '[';
-    private static char DetailsSeparator = ']';
+    private static string DaySeparator = "[";
+    private static string DetailsSeparator = "]";
 
     public static CalendarContentSavingScript Instance()
     {
@@ -26,7 +26,7 @@ public class CalendarContentSavingScript : MonoBehaviour
 
     public void SaveContents(int year, int month, List<DayScript> days)
     {
-        StreamWriter writer = new StreamWriter(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt");
+        StreamWriter writer = new StreamWriter(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents-" + year + "-" + month + ".txt");
         string AllDetailsFromMonth = "";
 
         foreach (DayScript d in days)
@@ -43,36 +43,16 @@ public class CalendarContentSavingScript : MonoBehaviour
         writer.Close();
     }
 
-    public List<DayScript> LoadContentsByMonthAndYear(int year, int month)
+    public string LoadStringContentsByMonthAndYear(int year, int month)
     {
-        List<DayScript> loadedDays = null;
+        string loadedString = "";
 
-        if (File.Exists(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt"))
+        if (File.Exists(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents-" + year + "-" + month + ".txt"))
         {
-            StreamReader reader = new StreamReader(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents" + year + "-" + month + "-" + ".txt");
-            string line = reader.ReadLine();
-            string[] dayNdetails = line.Split(DaySeparator);
-
-            for (int i = 0; i < dayNdetails.Length; i++)
-            {
-                if ((dayNdetails[i] != "") && (dayNdetails[i] != null))
-                {
-                    string[] details = dayNdetails[i].Split(DaySeparator);
-
-                    DayScript targetDay = new DayScript();
-
-                    targetDay.dayNumber = int.Parse(details[0]);
-
-                    for (int d = 1; d < details.Length; d++)
-                    {
-                        targetDay.DayDetails.Add(details[d]);
-                    }
-
-                    loadedDays[i] = targetDay;
-                }
-            }
+            StreamReader reader = new StreamReader(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents-" + year + "-" + month + ".txt");
+            loadedString = reader.ReadLine();
         }
 
-        return loadedDays;
+        return loadedString;
     }
 }

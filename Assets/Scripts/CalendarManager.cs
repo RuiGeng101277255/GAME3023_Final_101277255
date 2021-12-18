@@ -43,7 +43,7 @@ public class CalendarManager : MonoBehaviour
         }
     }
 
-    void saveCurrentMonth()
+    public void saveCurrentMonth()
     {
         if (currentMonthDayList.Count != 0)
         {
@@ -57,10 +57,41 @@ public class CalendarManager : MonoBehaviour
         DayDetailDisplay.gameObject.SetActive(true);
     }
 
+    public void setDaysAndContentsUsingString(string s)
+    {
+        List<DayScript> LoadedDays = new List<DayScript>();
+        string[] dayNdetails = s.Split('[');
+
+        for (int i = 0; i < dayNdetails.Length; i++)
+        {
+            if ((dayNdetails[i] != "") && (dayNdetails[i] != null))
+            {
+                string[] details = dayNdetails[i].Split(']');
+
+
+                for (int a = 0; a < details.Length; a++)
+                {
+                    Debug.Log("Index at " + a + " = " + details[a]);
+                }
+
+                GameObject newDayObj = Instantiate(dayPrefab);
+                DayScript newDay = newDayObj.GetComponent<DayScript>();
+                newDay.setDay(i, gameManager.currentMonth, gameManager.currentYear);
+
+                for (int d = 1; d < details.Length; d++)
+                {
+                    newDay.DayDetails.Add(details[d]);
+                }
+
+                LoadedDays.Add(newDay);
+            }
+        }
+
+        setDaysAndContents(LoadedDays);
+    }
+
     public void setDaysAndContents(List<DayScript> days)
     {
-        saveCurrentMonth();
-
         currentMonthDayList.Clear();
 
         foreach (DayScript d in days)
@@ -73,18 +104,16 @@ public class CalendarManager : MonoBehaviour
 
     public void populateEmptyMonth()
     {
-        currentMonthDayList.Clear();
+        List<DayScript> emptyDays = new List<DayScript>();
 
         for (int i = 1; i <= gameManager.maxMonthDay; i++)
         {
             GameObject newDayObj = Instantiate(dayPrefab);
             DayScript newDay = newDayObj.GetComponent<DayScript>();
             newDay.setDay(i, gameManager.currentMonth, gameManager.currentYear);
-            currentMonthDayList.Add(newDay);
+            emptyDays.Add(newDay);
         }
-
-        populateCurrentMonth();
-        //currentMonthDayList[0].setDayCurrentDisplay(true);
+        setDaysAndContents(emptyDays);
     }
 
     public void ShowCurrentDayHighlighted(int dayNum)
