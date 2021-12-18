@@ -9,6 +9,7 @@ public class DayDetailScript : MonoBehaviour
     public GameObject DetailListPanel;
 
     public GameObject TextPrefab;
+    public DayScript targetDay;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +36,8 @@ public class DayDetailScript : MonoBehaviour
     public void setTargetDateDetail(DayScript day)
     {
         ClearDisplayContents();
-        DetailTitle.text = "Day " + day.dayNumber + ":";
+        targetDay = day;
+        DetailTitle.text = day.dayMonth + "/" + day.dayNumber  + "/" + day.dayYear;
 
         foreach (string s in day.DayDetails)
         {

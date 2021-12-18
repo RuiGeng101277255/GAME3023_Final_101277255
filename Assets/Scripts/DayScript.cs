@@ -5,12 +5,14 @@ using TMPro;
 
 public class DayScript : MonoBehaviour
 {
-    public TMP_Text DayNumText;
+    public TMP_Text DayText;
     public List<string> DayDetails;
     public GameObject selectionImage;
 
     private CalendarManager Calendar;
     public int dayNumber;
+    public int dayMonth;
+    public int dayYear;
 
     // Start is called before the first frame update
     void Start()
@@ -34,10 +36,12 @@ public class DayScript : MonoBehaviour
         Calendar.DayClicked(this);
     }
 
-    public void setDayNumber(int num)
+    public void setDay(int dayNum, int monthNum, int yearNum)
     {
-        dayNumber = num;
-        DayNumText.text = num + "";
+        dayNumber = dayNum;
+        dayMonth = monthNum;
+        dayYear = yearNum;
+        DayText.text = dayNum + "";
     }
 
     public void setDayCurrentDisplay(bool isThisDayCurrent)

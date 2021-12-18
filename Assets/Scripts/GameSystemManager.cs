@@ -27,7 +27,7 @@ public class GameSystemManager : MonoBehaviour
         currentTime_Minute = 0;
         currentTime_Seconds = 0.0f;
 
-        currentDay = 1;
+        currentDay = 29;
         maxMonthDay = 31;
         currentMonth = 1;
         MonthName = "January";
@@ -73,6 +73,8 @@ public class GameSystemManager : MonoBehaviour
         {
             calendarManager.populateEmptyMonth();
         }
+
+        calendarManager.ShowCurrentDayHighlighted(currentDay);
     }
 
     void updateTimeValue()
@@ -125,62 +127,14 @@ public class GameSystemManager : MonoBehaviour
 
     void updateMonthValue()
     {
-        switch (currentMonth)
-        {
-            case 1:
-                MonthName = "January";
-                maxMonthDay = 31;
-                break;
-            case 2:
-                MonthName = "February";
-                maxMonthDay = (isLeapYear) ? 29 : 28;
-                break;
-            case 3:
-                MonthName = "March";
-                maxMonthDay = 31;
-                break;
-            case 4:
-                MonthName = "April";
-                maxMonthDay = 30;
-                break;
-            case 5:
-                MonthName = "May";
-                maxMonthDay = 31;
-                break;
-            case 6:
-                MonthName = "June";
-                maxMonthDay = 30;
-                break;
-            case 7:
-                MonthName = "July";
-                maxMonthDay = 31;
-                break;
-            case 8:
-                MonthName = "August";
-                maxMonthDay = 31;
-                break;
-            case 9:
-                MonthName = "September";
-                maxMonthDay = 30;
-                break;
-            case 10:
-                MonthName = "October";
-                maxMonthDay = 31;
-                break;
-            case 11:
-                MonthName = "November";
-                maxMonthDay = 30;
-                break;
-            case 12:
-                MonthName = "December";
-                maxMonthDay = 31;
-                break;
-        }
+        MonthStructure MonthInQuestion = new MonthStructure();
+        MonthName = MonthInQuestion.getMonthStructure(currentMonth, isLeapYear).MonthName;
+        maxMonthDay = MonthInQuestion.getMonthStructure(currentMonth, isLeapYear).MonthMaxDay;
     }
 
     void updateDayValue()
     {
-        if (currentDay >= maxMonthDay)
+        if (currentDay > maxMonthDay)
         {
             if (currentMonth != 12)
             {
@@ -240,5 +194,70 @@ public class GameSystemManager : MonoBehaviour
         currentYear = year;
         currentMonth = month;
         currentDay = day;
+    }
+}
+
+public class MonthStructure
+{
+    public string MonthName;
+    public int MonthMaxDay;
+
+    public MonthStructure getMonthStructure(int monthNumber, bool isLeap)
+    {
+        MonthStructure targetMonth = new MonthStructure();
+
+        switch (monthNumber)
+        {
+            case 1:
+                targetMonth.MonthName = "January";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 2:
+                targetMonth.MonthName = "February";
+                targetMonth.MonthMaxDay = (isLeap) ? 29 : 28;
+                break;
+            case 3:
+                targetMonth.MonthName = "March";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 4:
+                targetMonth.MonthName = "April";
+                targetMonth.MonthMaxDay = 30;
+                break;
+            case 5:
+                targetMonth.MonthName = "May";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 6:
+                targetMonth.MonthName = "June";
+                targetMonth.MonthMaxDay = 30;
+                break;
+            case 7:
+                targetMonth.MonthName = "July";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 8:
+                targetMonth.MonthName = "August";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 9:
+                targetMonth.MonthName = "September";
+                targetMonth.MonthMaxDay = 30;
+                break;
+            case 10:
+                targetMonth.MonthName = "October";
+                targetMonth.MonthMaxDay = 31;
+                break;
+            case 11:
+                targetMonth.MonthName = "November";
+                targetMonth.MonthMaxDay = 30;
+                break;
+            case 12:
+                targetMonth.MonthName = "December";
+                targetMonth.MonthMaxDay = 31;
+                break;
+        }
+
+        return targetMonth;
     }
 }

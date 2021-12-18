@@ -14,7 +14,7 @@ public class CalendarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -79,12 +79,12 @@ public class CalendarManager : MonoBehaviour
         {
             GameObject newDayObj = Instantiate(dayPrefab);
             DayScript newDay = newDayObj.GetComponent<DayScript>();
-            newDay.setDayNumber(i);
+            newDay.setDay(i, gameManager.currentMonth, gameManager.currentYear);
             currentMonthDayList.Add(newDay);
         }
 
         populateCurrentMonth();
-        currentMonthDayList[0].setDayCurrentDisplay(true);
+        //currentMonthDayList[0].setDayCurrentDisplay(true);
     }
 
     public void ShowCurrentDayHighlighted(int dayNum)
@@ -93,6 +93,10 @@ public class CalendarManager : MonoBehaviour
         {
             currentMonthDayList[dayNum - 2].setDayCurrentDisplay(false);
         }
-        currentMonthDayList[dayNum - 1].setDayCurrentDisplay(true);
+
+        if (dayNum <= gameManager.maxMonthDay)
+        {
+            currentMonthDayList[dayNum - 1].setDayCurrentDisplay(true);
+        }
     }
 }

@@ -147,10 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9401bf4b8d4fc9e4da87aba25e8d4f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DayNumText: {fileID: 349854413050272205}
+  DayText: {fileID: 349854413050272205}
   DayDetails: []
   selectionImage: {fileID: 3586644471643099800}
   dayNumber: 0
+  dayMonth: 0
+  dayYear: 0
 --- !u!1 &1650367107004690817
 GameObject:
   m_ObjectHideFlags: 0

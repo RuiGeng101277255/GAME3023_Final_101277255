@@ -5,12 +5,8 @@ using TMPro;
 
 public class DetailPanelEditScript : MonoBehaviour
 {
-    public TMP_InputField YearInput;
-    public TMP_InputField MonthInput;
-    public TMP_InputField DayInput;
     public TMP_InputField DetailInput;
-
-    
+    public DayDetailScript detailPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -24,21 +20,23 @@ public class DetailPanelEditScript : MonoBehaviour
         
     }
 
+    void makeEmptyMonthList()
+    {
+
+    }
+
     public void resetDetailPanel()
     {
-        YearInput.text = "";
-        MonthInput.text = "";
-        DayInput.text = "";
         DetailInput.text = "";
     }
 
     public void AddDetails()
     {
-        if ((((YearInput.text != "") && (MonthInput.text != "")) && (DayInput.text != "")) && (DetailInput.text != ""))
+        if (DetailInput.text != "")
         {
-            int yearNumber = int.Parse(YearInput.text);
-            int MonthNumber = int.Parse(MonthInput.text);
-            int DayNumber = int.Parse(DayInput.text);
+            detailPanel.targetDay.DayDetails.Add("- " + DetailInput.text);
+            detailPanel.setTargetDateDetail(detailPanel.targetDay);
+            gameObject.SetActive(false);
         }
     }
 }
