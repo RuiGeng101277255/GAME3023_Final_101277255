@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CalendarManager : MonoBehaviour
 {
@@ -46,6 +47,16 @@ public class CalendarManager : MonoBehaviour
         }
     }
 
+    public void setButtonInteraction(bool b)
+    {
+        var allDays = FindObjectsOfType<DayScript>();
+
+        foreach (DayScript d in allDays)
+        {
+            d.GetComponent<Button>().interactable = b;
+        }
+    }
+
     public void saveCurrentMonth()
     {
         if (currentMonthDayList.Count != 0)
@@ -60,6 +71,7 @@ public class CalendarManager : MonoBehaviour
     {
         DayDetailDisplay.setTargetDateDetail(day);
         DayDetailDisplay.gameObject.SetActive(true);
+        setButtonInteraction(false);
     }
 
     public void setDaysAndContentsUsingString(int year, int month, string s)

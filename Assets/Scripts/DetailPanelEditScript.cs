@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DetailPanelEditScript : MonoBehaviour
 {
     public TMP_InputField DetailInput;
     public DayDetailScript detailPanel;
+
+    public Toggle HolidayToggle;
+    public Toggle BirthdayToggle;
+    public Toggle LessonToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +42,14 @@ public class DetailPanelEditScript : MonoBehaviour
             detailPanel.targetDay.DayDetails.Add("- " + DetailInput.text);
             detailPanel.setTargetDateDetail(detailPanel.targetDay);
             gameObject.SetActive(false);
+            detailPanel.gameObject.SetActive(true);
         }
+    }
+
+    public void TogglePressed()
+    {
+        detailPanel.targetDay.setDayIsHoliday(HolidayToggle.isOn);
+        detailPanel.targetDay.setDayIsBirthday(BirthdayToggle.isOn);
+        detailPanel.targetDay.setDayIsWitchcraftLesson(LessonToggle.isOn);
     }
 }
