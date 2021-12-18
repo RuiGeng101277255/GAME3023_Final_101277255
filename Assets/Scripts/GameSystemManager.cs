@@ -47,13 +47,6 @@ public class GameSystemManager : MonoBehaviour
         currentTime_Hour = 0;
         currentTime_Minute = 0;
         currentTime_Seconds = 0.0f;
-        //Values for the dates (month and year)
-        currentDay = 1;
-        maxMonthDay = 31;
-        currentMonth = 1;
-        MonthName = "January";
-        currentYear = 2021;
-        isLeapYear = false;
 
         //Initial time scale factor
         CurrentTimeSpeedFactorBySeconds = 1.0f;

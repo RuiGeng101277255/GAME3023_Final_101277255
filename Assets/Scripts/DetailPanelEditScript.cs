@@ -7,6 +7,8 @@ using TMPro;
 //Script for the detail edit panel, this is displayed so that the player can make detail additions
 public class DetailPanelEditScript : MonoBehaviour
 {
+    public CalendarManager calendarManager;
+
     //Gets the inputfield and the detail panel gameobject that displays any chosen days details.
     public TMP_InputField DetailInput;
     public DayDetailScript detailPanel;
@@ -19,6 +21,9 @@ public class DetailPanelEditScript : MonoBehaviour
     {
         //Resets the inputfield
         DetailInput.text = "";
+        HolidayToggle.isOn = detailPanel.targetDay.isDayHoliday;
+        BirthdayToggle.isOn = detailPanel.targetDay.isDayBirthday;
+        LessonToggle.isOn = detailPanel.targetDay.isDayLesson;
     }
 
     public void AddDetails()
@@ -30,6 +35,7 @@ public class DetailPanelEditScript : MonoBehaviour
             detailPanel.setTargetDateDetail(detailPanel.targetDay);
             gameObject.SetActive(false);
             detailPanel.gameObject.SetActive(true);
+            calendarManager.saveCurrentMonth(); //Saves when the player make an edit
         }
     }
 
@@ -39,5 +45,6 @@ public class DetailPanelEditScript : MonoBehaviour
         detailPanel.targetDay.isDayHoliday = HolidayToggle.isOn;
         detailPanel.targetDay.isDayBirthday = BirthdayToggle.isOn;
         detailPanel.targetDay.isDayLesson = LessonToggle.isOn;
+        calendarManager.saveCurrentMonth(); //Saves when the player make an edit
     }
 }

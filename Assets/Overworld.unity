@@ -1499,11 +1499,11 @@ MonoBehaviour:
   calendarManager: {fileID: 1832979177}
   TimeScaleText: {fileID: 726802161}
   GlobalDayLight: {fileID: 2036757915}
-  currentDay: 0
-  maxMonthDay: 0
-  currentMonth: 0
-  MonthName: 
-  currentYear: 0
+  currentDay: 5
+  maxMonthDay: 31
+  currentMonth: 1
+  MonthName: January
+  currentYear: 2021
   isLeapYear: 0
 --- !u!4 &885618744
 Transform:
@@ -15686,6 +15686,17 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1642719135 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9063858509533209835, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+  m_PrefabInstance: {fileID: 9063858510014828269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf0bdbbd7647994c8144d2eec92ed0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1743363393
 GameObject:
   m_ObjectHideFlags: 0
@@ -22732,7 +22743,6 @@ GameObject:
   - component: {fileID: 2718115282367250604}
   - component: {fileID: 2718115282367250603}
   - component: {fileID: 7230323872189647820}
-  - component: {fileID: 7230323872189647822}
   - component: {fileID: 7230323872189647821}
   - component: {fileID: 695270102661594721}
   m_Layer: 0
@@ -22859,6 +22869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc84592e42fc0e2418e6687b23d47427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCalendarInDetails: 0
   moveSpeed: 0.3
   rigidbody: {fileID: 2718115282367250603}
 --- !u!82 &3488064683508296886
@@ -23205,18 +23216,6 @@ MonoBehaviour:
   animator: {fileID: 7230323872189647820}
   rigidbody: {fileID: 2718115282367250603}
   facing: 2
---- !u!114 &7230323872189647822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2718115282367250592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13684a5245cf474499b0a771f90acaa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &9063858510014828269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23317,13 +23316,41 @@ PrefabInstance:
       value: CalendarCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 9063858509255590916, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2718115282367250607}
+    - target: {fileID: 9063858509255590916, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 885618743}
+    - target: {fileID: 9063858509533209835, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2718115282367250607}
+    - target: {fileID: 9063858509533209838, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063858509533209838, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1642719135}
+    - target: {fileID: 9063858509533209838, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: closeDetailPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063858509533209838, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DayDetailScript, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 9063858510094529559, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 885618743}
+    - target: {fileID: 9063858510148692488, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
+      propertyPath: calendarManager
+      value: 
+      objectReference: {fileID: 1832979177}
     - target: {fileID: 9063858510359772694, guid: 69d77e1f23e36eb4492ddaaf91cdd830, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
