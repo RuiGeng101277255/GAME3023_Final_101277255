@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Singleton for the month structure
 public class MonthStructureScript : MonoBehaviour
 {
     private static MonthStructureScript _Instance;
 
+    //Singleton
     public static MonthStructureScript Instance()
     {
         if (_Instance == null)
@@ -18,6 +20,8 @@ public class MonthStructureScript : MonoBehaviour
 
     public string getTargetMonthName(int monthNumber)
     {
+        //Gets the month's name based on the number
+
         string name = "";
 
         switch (monthNumber)
@@ -64,6 +68,8 @@ public class MonthStructureScript : MonoBehaviour
 
     public int getTargetMonthMaxDayNumber(int yearNum, int monthNumber)
     {
+        //Gets the month's max number based on the month's number
+
         int MonthMaxDay = -1;
 
         switch (monthNumber)
@@ -111,6 +117,8 @@ public class MonthStructureScript : MonoBehaviour
 
     public string getDayPostFix(int dayNum)
     {
+        //Gets the postfix of the day so that UIs can display the dates correctly
+
         string dayPostfix = "";
 
         int lastDayDigit = dayNum % 10;

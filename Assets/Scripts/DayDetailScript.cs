@@ -3,28 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//For the detail display of each day (happens when the player clicks on the specific slot in the calendar)
 public class DayDetailScript : MonoBehaviour
 {
-    public Text DetailTitle;
-    public GameObject DetailListPanel;
+    public Text DetailTitle; //Title to display the date
+    public GameObject DetailListPanel; //Panel to display the chosen date's details
 
-    public GameObject TextPrefab;
-    public DayScript targetDay;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject TextPrefab; //Prefab of the detail texts
+    public DayScript targetDay; //The day in question
 
     void ClearDisplayContents()
     {
+        //Clears every detail text within the panel
         DetailTitle.text = "";
 
         for (int i = 0; i < DetailListPanel.transform.childCount; i++)
@@ -35,6 +25,7 @@ public class DayDetailScript : MonoBehaviour
 
     public void setTargetDateDetail(DayScript day)
     {
+        //Sets the correct UI display of the dates and their corresponding details
         ClearDisplayContents();
         targetDay = day;
         DetailTitle.text = day.dayMonth + "/" + day.dayNumber  + "/" + day.dayYear;

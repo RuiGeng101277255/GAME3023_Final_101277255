@@ -3,32 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//The calendar manager that is the center of how the days are populated for each month and loading/saving their corresponding behaviours
 public class CalendarManager : MonoBehaviour
 {
+    //Detail display that will show the specific day's details and components
     public DayDetailScript DayDetailDisplay;
-    public GameSystemManager gameManager;
+    public GameSystemManager gameManager; //game manager for the tracking of current times, and which months of the calendar the player would like to open.
 
-    public GameObject dayPrefab;
+    public GameObject dayPrefab; //prefab for the dayscript game objects, will need as many as the number of days within the chosen month
+    public List<DayScript> currentMonthDayList; //List of days within the month this calendar is showing
 
-    public List<DayScript> currentMonthDayList;
-
+    //Information about the specific month of specific year the calendar is currently displaying
     public int CalendarDisplayMonth;
     public int CalendarDisplayYear;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void populateCurrentMonth()
     {
+        //Cleans the days in the month if it has any, so that the new month's objects can be added
         if (transform.childCount > 0)
         {
             for (int i = 0; i < transform.childCount; i++)
@@ -37,6 +29,7 @@ public class CalendarManager : MonoBehaviour
             }
         }
 
+        //If the list of days isn't empty, then populate it.
         if (currentMonthDayList.Count != 0)
         {
             foreach (DayScript d in currentMonthDayList)
@@ -49,6 +42,7 @@ public class CalendarManager : MonoBehaviour
 
     public void setButtonInteraction(bool b)
     {
+        //Disables all the day's button behaviour after one is open
         var allDays = FindObjectsOfType<DayScript>();
 
         foreach (DayScript d in allDays)
@@ -59,6 +53,7 @@ public class CalendarManager : MonoBehaviour
 
     public void saveCurrentMonth()
     {
+        //Saves current month's information so that it can be loaded later
         if (currentMonthDayList.Count != 0)
         {
             int targetYear = currentMonthDayList[0].dayYear;
@@ -69,6 +64,7 @@ public class CalendarManager : MonoBehaviour
 
     public void DayClicked(DayScript day)
     {
+        //The behaviour when a day is clicked (to show its details)
         DayDetailDisplay.setTargetDateDetail(day);
         DayDetailDisplay.gameObject.SetActive(true);
         setButtonInteraction(false);
@@ -76,6 +72,9 @@ public class CalendarManager : MonoBehaviour
 
     public void setDaysAndContentsUsingString(int year, int month, string s)
     {
+        //Sets the list of days when we get a string from the specific loadable month
+
+        //Populates a temporal list of days
         List<DayScript> LoadedDays = new List<DayScript>();
         string[] dayNdetails = s.Split(SaveLoadSignifiers.DaySeparator.ToCharArray()[0]);
 
@@ -102,14 +101,17 @@ public class CalendarManager : MonoBehaviour
             }
         }
 
+        //After the temporal list of days is populated, we set its contents in the calendar
         setDaysAndContents(year, month, LoadedDays);
     }
 
     public void setDaysAndContents(int year, int month, List<DayScript> days)
     {
+        //Sets the days for the specific month and year the calendar is currently displaying
         CalendarDisplayYear = year;
         CalendarDisplayMonth = month;
 
+        //clears the list of the existing days before adding the new ones
         currentMonthDayList.Clear();
 
         foreach (DayScript d in days)
@@ -122,6 +124,9 @@ public class CalendarManager : MonoBehaviour
 
     public void populateEmptyMonth(int year, int month)
     {
+        //similar to loading an existing list of days but this function makes a bunch of empty days
+        //Used if there isn't any available or loadable data
+
         int maxTargetMonthDays = MonthStructureScript.Instance().getTargetMonthMaxDayNumber(year, month);
 
         List<DayScript> emptyDays = new List<DayScript>();
@@ -138,6 +143,7 @@ public class CalendarManager : MonoBehaviour
 
     public void ShowCurrentDayHighlighted()
     {
+        //Highlights the player's current/present day if available
         foreach (DayScript day in currentMonthDayList)
         {
             if (((day.dayNumber == gameManager.currentDay) && (day.dayMonth == gameManager.currentMonth)) && (day.dayYear == gameManager.currentYear))
@@ -149,23 +155,5 @@ public class CalendarManager : MonoBehaviour
                 day.setDayCurrentDisplay(false);
             }
         }
-
-
-        //if ((monthNum == gameManager.currentMonth) && (yearNum == gameManager.currentYear))
-        //{
-        //    foreach (DayScript day in currentMonthDayList)
-        //    {
-        //
-        //    }
-        //    if (dayNum > 1)
-        //    {
-        //        currentMonthDayList[dayNum - 2].setDayCurrentDisplay(false);
-        //    }
-        //
-        //    if (dayNum <= gameManager.maxMonthDay)
-        //    {
-        //        currentMonthDayList[dayNum - 1].setDayCurrentDisplay(true);
-        //    }
-        //}
     }
 }
