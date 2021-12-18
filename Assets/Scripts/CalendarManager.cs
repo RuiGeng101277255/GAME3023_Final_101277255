@@ -60,19 +60,13 @@ public class CalendarManager : MonoBehaviour
     public void setDaysAndContentsUsingString(string s)
     {
         List<DayScript> LoadedDays = new List<DayScript>();
-        string[] dayNdetails = s.Split('[');
+        string[] dayNdetails = s.Split(SaveLoadSignifiers.DaySeparator.ToCharArray()[0]);
 
         for (int i = 0; i < dayNdetails.Length; i++)
         {
             if ((dayNdetails[i] != "") && (dayNdetails[i] != null))
             {
-                string[] details = dayNdetails[i].Split(']');
-
-
-                for (int a = 0; a < details.Length; a++)
-                {
-                    Debug.Log("Index at " + a + " = " + details[a]);
-                }
+                string[] details = dayNdetails[i].Split(SaveLoadSignifiers.DetailSeparator.ToCharArray()[0]);
 
                 GameObject newDayObj = Instantiate(dayPrefab);
                 DayScript newDay = newDayObj.GetComponent<DayScript>();

@@ -6,8 +6,6 @@ using System.IO;
 public class CalendarContentSavingScript : MonoBehaviour
 {
     private static CalendarContentSavingScript _Instance;
-    private static string DaySeparator = "[";
-    private static string DetailsSeparator = "]";
 
     public static CalendarContentSavingScript Instance()
     {
@@ -18,12 +16,6 @@ public class CalendarContentSavingScript : MonoBehaviour
 
         return _Instance;
     }
-
-    public void SetContents()
-    {
-
-    }
-
     public void SaveContents(int year, int month, List<DayScript> days)
     {
         StreamWriter writer = new StreamWriter(Application.dataPath + Path.DirectorySeparatorChar + "/CalendarSaves/CalendarContents-" + year + "-" + month + ".txt");
@@ -31,11 +23,11 @@ public class CalendarContentSavingScript : MonoBehaviour
 
         foreach (DayScript d in days)
         {
-            AllDetailsFromMonth += (DaySeparator + d.dayNumber);
+            AllDetailsFromMonth += (SaveLoadSignifiers.DaySeparator + d.dayNumber);
 
             foreach (string s in d.DayDetails)
             {
-                AllDetailsFromMonth += (DetailsSeparator + s);
+                AllDetailsFromMonth += (SaveLoadSignifiers.DetailSeparator + s);
             }
         }
 
@@ -55,4 +47,10 @@ public class CalendarContentSavingScript : MonoBehaviour
 
         return loadedString;
     }
+}
+
+public class SaveLoadSignifiers
+{
+    public static string DaySeparator = "[";
+    public static string DetailSeparator = "]";
 }
