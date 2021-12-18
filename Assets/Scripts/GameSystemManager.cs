@@ -282,10 +282,10 @@ public class GameSystemManager : MonoBehaviour
         }
     }
 
-    public void setPlayerCustomeTimeScaleBySeconds(float scale, bool isCustome)
+    public void setPlayerCustomeTimeScaleBySeconds(float scale, bool isCustom)
     {
         //A custom setter for the time scale if the developers want to have a specific time flow speed
         playerCustomTimeScaleFactorBySeconds = scale;
-        isPlayerCustomTimeScale = isCustome;
+        isPlayerCustomTimeScale = isCustom;
     }
 }

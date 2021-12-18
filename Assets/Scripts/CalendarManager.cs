@@ -56,9 +56,7 @@ public class CalendarManager : MonoBehaviour
         //Saves current month's information so that it can be loaded later
         if (currentMonthDayList.Count != 0)
         {
-            int targetYear = currentMonthDayList[0].dayYear;
-            int targetMonth = currentMonthDayList[0].dayMonth;
-            CalendarContentSavingScript.Instance().SaveContents(targetYear, targetMonth, currentMonthDayList);
+            CalendarContentSavingScript.Instance().SaveContents(CalendarDisplayYear, CalendarDisplayMonth, currentMonthDayList);
         }
     }
 
