@@ -8,23 +8,40 @@ public class DayScript : MonoBehaviour
     public TMP_Text DayText;
     public List<string> DayDetails;
     public GameObject selectionImage;
-    public GameObject DayHasDetailImage;
+
+    //Icons
+    public GameObject DayHasDetailIcon;
+    public GameObject HolidayIcon;
+    public GameObject BirthdayIcon;
+    public GameObject WitchCraftLessonIcon;
 
     private CalendarManager Calendar;
     public int dayNumber;
     public int dayMonth;
     public int dayYear;
 
+    private bool isDayHoliday = false;
+    private bool isDayBirthday = false;
+    private bool isDayLesson = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        DayHasDetailImage.SetActive(((DayDetails.Count != 0) ? true : false));
+        updateIconDisplay();
+    }
+
+    void updateIconDisplay()
+    {
+        DayHasDetailIcon.SetActive(((DayDetails.Count != 0) ? true : false));
+        HolidayIcon.SetActive(isDayHoliday);
+        BirthdayIcon.SetActive(isDayBirthday);
+        WitchCraftLessonIcon.SetActive(isDayLesson);
     }
 
     public void setCalendarManager(CalendarManager cM)
@@ -48,5 +65,20 @@ public class DayScript : MonoBehaviour
     public void setDayCurrentDisplay(bool isThisDayCurrent)
     {
         selectionImage.SetActive(isThisDayCurrent);
+    }
+
+    public void setDayIsHoliday(bool b)
+    {
+        isDayHoliday = b;
+    }
+
+    public void setDayIsBirthday(bool b)
+    {
+        isDayBirthday = b;
+    }
+
+    public void setDayIsWitchcraftLesson(bool b)
+    {
+        isDayLesson = b;
     }
 }
