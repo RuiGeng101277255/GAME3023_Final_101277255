@@ -20,9 +20,9 @@ public class DayScript : MonoBehaviour
     public int dayMonth;
     public int dayYear;
 
-    private bool isDayHoliday = false;
-    private bool isDayBirthday = false;
-    private bool isDayLesson = false;
+    public bool isDayHoliday = false;
+    public bool isDayBirthday = false;
+    public bool isDayLesson = false;
 
     // Start is called before the first frame update
     void Start()
@@ -65,20 +65,5 @@ public class DayScript : MonoBehaviour
     public void setDayCurrentDisplay(bool isThisDayCurrent)
     {
         selectionImage.SetActive(isThisDayCurrent);
-    }
-
-    public void setDayIsHoliday(bool b)
-    {
-        isDayHoliday = b;
-    }
-
-    public void setDayIsBirthday(bool b)
-    {
-        isDayBirthday = b;
-    }
-
-    public void setDayIsWitchcraftLesson(bool b)
-    {
-        isDayLesson = b;
     }
 }

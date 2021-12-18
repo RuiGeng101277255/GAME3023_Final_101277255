@@ -89,7 +89,11 @@ public class CalendarManager : MonoBehaviour
                 DayScript newDay = newDayObj.GetComponent<DayScript>();
                 newDay.setDay(i, month, year);
 
-                for (int d = 1; d < details.Length; d++)
+                newDay.isDayHoliday = bool.Parse(details[1]);
+                newDay.isDayBirthday = bool.Parse(details[2]);
+                newDay.isDayLesson = bool.Parse(details[3]);
+
+                for (int d = 4; d < details.Length; d++)
                 {
                     newDay.DayDetails.Add(details[d]);
                 }

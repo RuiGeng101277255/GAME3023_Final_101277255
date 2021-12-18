@@ -48,8 +48,8 @@ public class DetailPanelEditScript : MonoBehaviour
 
     public void TogglePressed()
     {
-        detailPanel.targetDay.setDayIsHoliday(HolidayToggle.isOn);
-        detailPanel.targetDay.setDayIsBirthday(BirthdayToggle.isOn);
-        detailPanel.targetDay.setDayIsWitchcraftLesson(LessonToggle.isOn);
+        detailPanel.targetDay.isDayHoliday = HolidayToggle.isOn;
+        detailPanel.targetDay.isDayBirthday = BirthdayToggle.isOn;
+        detailPanel.targetDay.isDayLesson = LessonToggle.isOn;
     }
 }

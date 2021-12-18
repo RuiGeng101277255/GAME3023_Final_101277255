@@ -25,6 +25,11 @@ public class CalendarContentSavingScript : MonoBehaviour
         {
             AllDetailsFromMonth += (SaveLoadSignifiers.DaySeparator + d.dayNumber);
 
+            //Events
+            AllDetailsFromMonth += (SaveLoadSignifiers.DetailSeparator + d.isDayHoliday);
+            AllDetailsFromMonth += (SaveLoadSignifiers.DetailSeparator + d.isDayBirthday);
+            AllDetailsFromMonth += (SaveLoadSignifiers.DetailSeparator + d.isDayLesson);
+
             foreach (string s in d.DayDetails)
             {
                 AllDetailsFromMonth += (SaveLoadSignifiers.DetailSeparator + s);
